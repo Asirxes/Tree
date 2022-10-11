@@ -8,7 +8,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="921399b8-bdee-40f4-91a3-e7e5d9d858f5" name="Changes" comment="" />
+    <list default="true" id="921399b8-bdee-40f4-91a3-e7e5d9d858f5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tree/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tree/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -88,6 +90,7 @@
       <updated>1665486948994</updated>
       <workItem from="1665486962289" duration="7056000" />
       <workItem from="1665494492060" duration="389000" />
+      <workItem from="1665517857488" duration="116000" />
     </task>
     <task id="LOCAL-00001" summary="Created Tree Project">
       <created>1665511661032</created>
