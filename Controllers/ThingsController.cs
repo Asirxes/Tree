@@ -1,0 +1,238 @@
+using Microsoft.AspNetCore.Mvc;
+using Tree.Datas;
+using Tree.Entities;
+
+namespace Tree.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ThingsController : ControllerBase
+{
+    private readonly DataContext _context;
+
+    public ThingsController(DataContext context)
+    {
+        _context = context;
+    }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<Thing>> GetThings()
+    {
+        var things = _context.Things.ToList();
+
+        return things;
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<Thing> GetThings(int id)
+    {
+        return _context.Things.Find(id);
+    }
+
+    [HttpGet("add-root-folder")]
+    public async Task<ActionResult<Thing>> AddRootFolder()
+    {
+        var thing = new Thing
+        {
+            IsFolder = true,
+            Name = "root",
+            Childrens = new List<string>(),
+            ParentName = null,
+            File = null,
+            Level = 0
+        };
+        _context.Things.Add(thing);
+        await _context.SaveChangesAsync();
+        return thing;
+    }
+
+    [HttpGet("add-folder")]
+    public async Task<ActionResult<Thing>> AddFolder(string name, string parentName)
+    {
+        if (_context.Things.FirstOrDefault(b => b.Name == name) != null) return BadRequest("name already taken");
+
+        var parent = _context.Things.FirstOrDefault(b => b.Name == parentName);
+
+        parent.Childrens.Add(name);
+
+        var thing = new Thing
+        {
+            IsFolder = true,
+            Name = name,
+            Childrens = new List<string>(),
+            ParentName = parentName,
+            File = null,
+            Level = parent.Level + 1
+        };
+
+        _context.Things.Add(thing);
+        await _context.SaveChangesAsync();
+        return thing;
+    }
+
+    [HttpGet("add-file")]
+    public async Task<ActionResult<Thing>> AddFile(string name, string parentName, byte[] file)
+    {
+        if (_context.Things.FirstOrDefault(b => b.Name == name) != null) return BadRequest("name already taken");
+
+        var parent = _context.Things.FirstOrDefault(b => b.Name == parentName);
+
+        parent.Childrens.Add(name);
+
+        var thing = new Thing
+        {
+            IsFolder = false,
+            Name = name,
+            Childrens = null,
+            ParentName = parentName,
+            File = file,
+            Level = parent.Level + 1
+        };
+
+        _context.Things.Add(thing);
+        await _context.SaveChangesAsync();
+        return thing;
+    }
+
+    [HttpGet("delete/{id}")]
+    public async Task<ActionResult<Thing>> Delete(int id)
+    {
+        if (id == 0) return BadRequest("Can't delete root folder");
+
+        var thing = _context.Things.FirstOrDefault(b => b.Id == id);
+
+        if (thing == null) return BadRequest("Can't delete something that does not exist");
+
+        var parent = _context.Things.FirstOrDefault(b => b.Name == thing.ParentName);
+
+        parent.Childrens.Remove(thing.Name);
+
+        DeleteBranch(thing);
+        await _context.SaveChangesAsync();
+        return thing;
+    }
+
+    public void DeleteBranch(Thing thing)
+    {
+        if (thing.Childrens.Count == 0)
+        {
+            _context.Things.Remove(thing);
+        }
+        else
+        {
+            foreach (var child in thing.Childrens)
+            {
+                DeleteBranch(_context.Things.FirstOrDefault(b => b.Name == child));
+                _context.Things.Remove(thing);
+            }
+        }
+    }
+
+    [HttpGet("rename/{id}")]
+    public async Task<ActionResult<Thing>> Edit(int id, string name)
+    {
+        if (_context.Things.FirstOrDefault(b => b.Name == name) != null)
+        {
+            return BadRequest("name already taken");
+        }
+
+        var thing = _context.Things.FirstOrDefault(b => b.Id == id);
+
+        if (thing.Id != 0)
+        {
+            var parent = _context.Things.FirstOrDefault(b => b.Name == thing.ParentName);
+
+            parent.Childrens.Remove(thing.Name);
+
+            thing.Name = name;
+
+            parent.Childrens.Add(thing.Name);
+        }
+
+        thing.Name = name;
+
+        foreach (var children in thing.Childrens)
+        {
+            var child = _context.Things.FirstOrDefault(b => b.Name == children);
+
+            child.ParentName = thing.Name;
+        }
+
+        await _context.SaveChangesAsync();
+        return thing;
+    }
+
+    [HttpGet("move/{id}")]
+    public async Task<ActionResult<Thing>> Move(int id, string name)
+    {
+        if (_context.Things.FirstOrDefault(b => b.Name == name) == null ||
+            _context.Things.FirstOrDefault(b => b.Name == name).IsFolder == false)
+        {
+            return BadRequest("Directory does not exist or it is not a directory");
+        }
+
+        var destiny = _context.Things.FirstOrDefault(b => b.Name == name);
+
+        var thing = _context.Things.FirstOrDefault(b => b.Id == id);
+
+        if (thing.IsFolder == true)
+        {
+            if (CheckSubfolder(thing, name))
+            {
+                return BadRequest("Can't move into subfolder");
+            }
+        }
+
+        var parent = _context.Things.FirstOrDefault(b => b.Name == thing.ParentName);
+
+        parent.Childrens.Remove(thing.Name);
+
+        thing.ParentName = destiny.Name;
+
+        destiny.Childrens.Add(thing.Name);
+
+        ChangeLevel(thing, destiny.Level);
+
+        await _context.SaveChangesAsync();
+        return thing;
+    }
+
+    public void ChangeLevel(Thing thing, int level)
+    {
+        if (thing.Childrens.Count == 0)
+        {
+            thing.Level = level + 1;
+        }
+        else
+        {
+            foreach (var child in thing.Childrens)
+            {
+                ChangeLevel(_context.Things.FirstOrDefault(b => b.Name == child), level + 1);
+                thing.Level = level + 1;
+            }
+        }
+    }
+
+    public bool CheckSubfolder(Thing thing, string name)
+    {
+        bool isSubfolder = false;
+        
+        if (thing.Childrens.Count != 0 )
+        {
+            foreach (var child in thing.Childrens)
+            {
+                if (child == name)
+                {
+                    isSubfolder = true;
+                    return isSubfolder;
+                }
+                else
+                {
+                    return CheckSubfolder(_context.Things.FirstOrDefault(b => b.Name == child), name);
+                }
+            }
+        }
+
+        return isSubfolder;
+    }
+}

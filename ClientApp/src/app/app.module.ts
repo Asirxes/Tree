@@ -5,7 +5,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
-import { FieldComponent } from './field/field.component';
+import {FieldComponent} from './field/field.component';
 
 @NgModule({
   declarations: [

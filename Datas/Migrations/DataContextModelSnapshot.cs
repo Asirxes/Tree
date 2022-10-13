@@ -39,6 +39,9 @@ namespace Tree.Datas.Migrations
                     b.Property<bool>("IsFolder")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("Level")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 

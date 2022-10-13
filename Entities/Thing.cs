@@ -8,9 +8,11 @@ public class Thing
 
     public string? Name { get; set; }
 
-    public string[]? Childrens { get; set; }
+    public List<string>? Childrens { get; set; }
 
     public string? ParentName { get; set; }
 
     public byte[]? File { get; set; }
+
+    public int Level { get; set; }
 }
