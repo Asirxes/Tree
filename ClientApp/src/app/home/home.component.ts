@@ -6,9 +6,4 @@ import {Component} from "@angular/core";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  rolled: boolean = true;
-
-  changeRoll() {
-    this.rolled = !this.rolled;
-  }
 }
