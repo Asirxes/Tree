@@ -1,4 +1,7 @@
 <h1 class="mt-3">Tree</h1>
 <div>
-  <app-field></app-field>
+<div *ngFor="let thing of things">
+  <app-field [thingFromHomeComponent]="thing">
+  </app-field>
+</div>
 </div>
