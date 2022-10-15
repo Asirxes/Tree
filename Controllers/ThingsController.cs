@@ -71,7 +71,7 @@ public class ThingsController : ControllerBase
     }
 
     [HttpGet("add-file")]
-    public async Task<ActionResult<Thing>> AddFile(string name, string parentName, byte[] file)
+    public async Task<ActionResult<Thing>> AddFile(string name, string parentName)
     {
         if (_context.Things.FirstOrDefault(b => b.Name == name) != null) return BadRequest("name already taken");
 
@@ -85,7 +85,7 @@ public class ThingsController : ControllerBase
             Name = name,
             Childrens = null,
             ParentName = parentName,
-            File = file,
+            File = null,
             Level = parent.Level + 1
         };
 
@@ -107,7 +107,14 @@ public class ThingsController : ControllerBase
 
         parent.Childrens.Remove(thing.Name);
 
-        DeleteBranch(thing);
+        if (thing.IsFolder == false)
+        {
+            _context.Things.Remove(thing);
+        }
+        else
+        {
+            DeleteBranch(thing);
+        }
         await _context.SaveChangesAsync();
         return thing;
     }
