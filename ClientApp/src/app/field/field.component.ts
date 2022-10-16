@@ -41,6 +41,11 @@ export class FieldComponent implements OnInit {
   }
 
   sort() {
+    this.http.get(`https://localhost:7089/api/things/sort/${this.thingFromHomeComponent.id}`).subscribe(response => {
+      window.location.reload()
+    }, error => {
+      console.log(error)
+    })
   }
 
   move() {
@@ -136,4 +141,5 @@ export class FieldComponent implements OnInit {
       this.openClose.emit(this.thingFromHomeComponent.name);
     }
   }
+
 }

@@ -292,4 +292,84 @@ public class ThingsController : ControllerBase
 
         return isSubfolder;
     }
+    
+    [HttpGet("sort/{id}")]
+    public async Task<ActionResult<Thing>> sort(int id)
+    {
+        List<string> things = new List<string>();
+
+        var thing = _context.Things.FirstOrDefault(b => b.Id == id);
+
+        foreach (var child in thing.Childrens)
+        {
+            things.Add(child);
+        }
+        
+        things.Sort();
+
+        foreach (var child in things)
+        {
+            _context.Things.FirstOrDefault(b => b.Name == child).Position = "";
+            
+            _context.SaveChanges();
+        }
+        
+        foreach (var child in things)
+        {
+            ChangePosition(_context.Things.FirstOrDefault(b => b.Name == child),thing.Position);
+        }
+
+        await _context.SaveChangesAsync();
+        return thing;
+    }
+
+    public void ChangePosition(Thing thing, string position)
+    {
+        if (thing.IsFolder == false || thing.Childrens.Count == 0)
+        {
+
+            int k = 1;
+
+            string newPosition;
+
+            while (true)
+            {
+                if (_context.Things.FirstOrDefault(b => b.Position == position + "." + k) == null)
+                {
+                    newPosition = position + "." + k;
+                    break;
+                }
+
+                k++;
+            }
+
+            thing.Position = newPosition;
+            _context.SaveChanges();
+        }
+        else
+        {
+
+            int k = 1;
+
+            string newPosition;
+
+            while (true)
+            {
+                if (_context.Things.FirstOrDefault(b => b.Position == position + "." + k) == null)
+                {
+                    newPosition = position + "." + k;
+                    break;
+                }
+
+                k++;
+            }
+
+            thing.Position = newPosition;
+            _context.SaveChanges();
+            foreach (var child in thing.Childrens)
+            {
+                ChangePosition(_context.Things.FirstOrDefault(b => b.Name == child), thing.Position);
+            }
+        }
+    }
 }

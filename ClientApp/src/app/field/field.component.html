@@ -18,7 +18,7 @@
           <button (click)="edit()" *ngIf="thingFromHomeComponent.name != 'root'"
                   class="btn btn-primary options me-3">Edit
           </button>
-          <button *ngIf="thingFromHomeComponent.isFolder == true " class="btn btn-primary options me-3">Sort</button>
+          <button *ngIf="thingFromHomeComponent.isFolder == true " [disabled]="thingFromHomeComponent.childrens.length == 0"  (click)="sort()" class="btn btn-primary options me-3">Sort</button>
           <button (click)="move()" *ngIf="thingFromHomeComponent.name != 'root'"
                   class="btn btn-primary options me-3">Move
           </button>
