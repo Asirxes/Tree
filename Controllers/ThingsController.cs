@@ -18,7 +18,9 @@ public class ThingsController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Thing>> GetThings()
     {
-        var things = _context.Things.ToList();
+        //var things = _context.Things.ToList();
+
+        var things = _context.Things.OrderBy(thing => thing.Position).ToList();
 
         return things;
     }
@@ -39,7 +41,8 @@ public class ThingsController : ControllerBase
             Childrens = new List<string>(),
             ParentName = null,
             File = null,
-            Level = 0
+            Level = 0,
+            Position = "1"
         };
         _context.Things.Add(thing);
         await _context.SaveChangesAsync();
@@ -55,6 +58,21 @@ public class ThingsController : ControllerBase
 
         parent.Childrens.Add(name);
 
+        int k = 1;
+
+        string newPosition;
+
+        while (true)
+        {
+            if (_context.Things.FirstOrDefault(b => b.Position == parent.Position + "." + k) == null)
+            {
+                newPosition = parent.Position + "." + k;
+                break;
+            }
+
+            k++;
+        }
+
         var thing = new Thing
         {
             IsFolder = true,
@@ -62,7 +80,8 @@ public class ThingsController : ControllerBase
             Childrens = new List<string>(),
             ParentName = parentName,
             File = null,
-            Level = parent.Level + 1
+            Level = parent.Level + 1,
+            Position = newPosition
         };
 
         _context.Things.Add(thing);
@@ -79,6 +98,21 @@ public class ThingsController : ControllerBase
 
         parent.Childrens.Add(name);
 
+        int k = 1;
+
+        string newPosition;
+
+        while (true)
+        {
+            if (_context.Things.FirstOrDefault(b => b.Position == parent.Position + "." + k) == null)
+            {
+                newPosition = parent.Position + "." + k;
+                break;
+            }
+
+            k++;
+        }
+
         var thing = new Thing
         {
             IsFolder = false,
@@ -86,7 +120,8 @@ public class ThingsController : ControllerBase
             Childrens = null,
             ParentName = parentName,
             File = null,
-            Level = parent.Level + 1
+            Level = parent.Level + 1,
+            Position = newPosition
         };
 
         _context.Things.Add(thing);
@@ -181,22 +216,62 @@ public class ThingsController : ControllerBase
 
         destiny.Childrens.Add(thing.Name);
 
-        ChangeLevel(thing, destiny.Level);
+        ChangeLevel(thing, destiny.Level, destiny.Position);
 
         await _context.SaveChangesAsync();
         return thing;
     }
 
-    public void ChangeLevel(Thing thing, int level)
+    public void ChangeLevel(Thing thing, int level, string position)
     {
         if (thing.IsFolder == false || thing.Childrens.Count == 0)
+        {
             thing.Level = level + 1;
+
+            int k = 1;
+
+            string newPosition;
+
+            while (true)
+            {
+                if (_context.Things.FirstOrDefault(b => b.Position == position + "." + k) == null)
+                {
+                    newPosition = position + "." + k;
+                    break;
+                }
+
+                k++;
+            }
+
+            thing.Position = newPosition;
+            _context.SaveChanges();
+        }
         else
+        {
+            thing.Level = level + 1;
+            
+            int k = 1;
+
+            string newPosition;
+
+            while (true)
+            {
+                if (_context.Things.FirstOrDefault(b => b.Position == position + "." + k) == null)
+                {
+                    newPosition = position + "." + k;
+                    break;
+                }
+
+                k++;
+            }
+
+            thing.Position = newPosition;
+            _context.SaveChanges();
             foreach (var child in thing.Childrens)
             {
-                ChangeLevel(_context.Things.FirstOrDefault(b => b.Name == child), level + 1);
-                thing.Level = level + 1;
+                ChangeLevel(_context.Things.FirstOrDefault(b => b.Name == child), level + 1, thing.Position);
             }
+        }
     }
 
     public bool CheckSubfolder(Thing thing, string name)

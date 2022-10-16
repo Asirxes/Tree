@@ -15,4 +15,6 @@ public class Thing
     public byte[]? File { get; set; }
 
     public int Level { get; set; }
+
+    public string Position { get; set; }
 }

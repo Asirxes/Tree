@@ -1,7 +1,9 @@
-<h1 class="mt-3">Tree</h1>
+<div class="d-flex"><h1 class="mt-3" (click)="test()">Tree <button class="btn btn-warning ms-5" (click)="expand()">Rozwiń wszystko</button></h1></div>
 <div>
   <div *ngFor="let thing of things">
-    <app-field [thingFromHomeComponent]="thing" [thingsFromHomeComponent]="things">
+    <div [style.margin-left]="thing.level*50 + 'px'">
+    <app-field *ngIf="toShow.includes(thing.name)" [thingFromHomeComponent]="thing" [thingsFromHomeComponent]="things" (openClose)="openClose($event)">
     </app-field>
+    </div>
   </div>
 </div>

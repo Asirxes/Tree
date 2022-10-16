@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
 @Component({
@@ -9,6 +9,8 @@ import {HttpClient} from "@angular/common/http";
 export class FieldComponent implements OnInit {
   @Input() thingsFromHomeComponent: any;
   @Input() thingFromHomeComponent: any;
+  @Output() openClose = new EventEmitter();
+  @Output() add = new EventEmitter();
   isInput: boolean = false;
   message: string = "";
   inputString: string = "";
@@ -70,6 +72,7 @@ export class FieldComponent implements OnInit {
         }
       }
       this.http.get(`https://localhost:7089/api/things/add-folder?name=${this.inputString}&parentName=${this.thingFromHomeComponent.name}`).subscribe(response => {
+
         window.location.reload()
       }, error => {
         console.log(error)
@@ -126,5 +129,11 @@ export class FieldComponent implements OnInit {
     this.isInput = false;
     this.isAddFile = false;
     this.isAddFolder = false;
+  }
+
+  openClose2(){
+    if(this.thingFromHomeComponent.isFolder == true){
+      this.openClose.emit(this.thingFromHomeComponent.name);
+    }
   }
 }
