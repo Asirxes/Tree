@@ -6,7 +6,7 @@ import {HttpClient} from "@angular/common/http";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   title = 'tree'
   things: any
 
@@ -14,9 +14,9 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.http.get('https://localhost:7089/api/things').subscribe(response =>{
+    this.http.get('https://localhost:7089/api/things').subscribe(response => {
       this.things = response;
-    },error => {
+    }, error => {
       console.log(error)
     })
   }

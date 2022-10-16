@@ -108,40 +108,29 @@ public class ThingsController : ControllerBase
         parent.Childrens.Remove(thing.Name);
 
         if (thing.IsFolder == false)
-        {
             _context.Things.Remove(thing);
-        }
         else
-        {
             DeleteBranch(thing);
-        }
         await _context.SaveChangesAsync();
         return thing;
     }
 
     public void DeleteBranch(Thing thing)
     {
-        if (thing.Childrens.Count == 0)
-        {
+        if (thing.IsFolder == false || thing.Childrens.Count == 0)
             _context.Things.Remove(thing);
-        }
         else
-        {
             foreach (var child in thing.Childrens)
             {
                 DeleteBranch(_context.Things.FirstOrDefault(b => b.Name == child));
                 _context.Things.Remove(thing);
             }
-        }
     }
 
     [HttpGet("rename/{id}")]
     public async Task<ActionResult<Thing>> Edit(int id, string name)
     {
-        if (_context.Things.FirstOrDefault(b => b.Name == name) != null)
-        {
-            return BadRequest("name already taken");
-        }
+        if (_context.Things.FirstOrDefault(b => b.Name == name) != null) return BadRequest("name already taken");
 
         var thing = _context.Things.FirstOrDefault(b => b.Id == id);
 
@@ -174,21 +163,15 @@ public class ThingsController : ControllerBase
     {
         if (_context.Things.FirstOrDefault(b => b.Name == name) == null ||
             _context.Things.FirstOrDefault(b => b.Name == name).IsFolder == false)
-        {
             return BadRequest("Directory does not exist or it is not a directory");
-        }
 
         var destiny = _context.Things.FirstOrDefault(b => b.Name == name);
 
         var thing = _context.Things.FirstOrDefault(b => b.Id == id);
 
-        if (thing.IsFolder == true)
-        {
+        if (thing.IsFolder)
             if (CheckSubfolder(thing, name))
-            {
                 return BadRequest("Can't move into subfolder");
-            }
-        }
 
         var parent = _context.Things.FirstOrDefault(b => b.Name == thing.ParentName);
 
@@ -206,28 +189,22 @@ public class ThingsController : ControllerBase
 
     public void ChangeLevel(Thing thing, int level)
     {
-        if (thing.Childrens.Count == 0)
-        {
+        if (thing.IsFolder == false || thing.Childrens.Count == 0)
             thing.Level = level + 1;
-        }
         else
-        {
             foreach (var child in thing.Childrens)
             {
                 ChangeLevel(_context.Things.FirstOrDefault(b => b.Name == child), level + 1);
                 thing.Level = level + 1;
             }
-        }
     }
 
     public bool CheckSubfolder(Thing thing, string name)
     {
-        bool isSubfolder = false;
-        
-        if (thing.Childrens.Count != 0 )
-        {
+        var isSubfolder = false;
+
+        if (thing.Childrens.Count != 0)
             foreach (var child in thing.Childrens)
-            {
                 if (child == name)
                 {
                     isSubfolder = true;
@@ -237,8 +214,6 @@ public class ThingsController : ControllerBase
                 {
                     return CheckSubfolder(_context.Things.FirstOrDefault(b => b.Name == child), name);
                 }
-            }
-        }
 
         return isSubfolder;
     }

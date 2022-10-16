@@ -2,18 +2,23 @@
   <button *ngIf="!isInput && !isAddFolder && !isAddFile" class="btn btn-secondary btn-lg btn-block" type="button">
     <div class="row">
       <div class="d-flex justify-content-between">
-        <div>{{thingFromHomeComponent.name}}</div>
+        <div><i *ngIf="thingFromHomeComponent.isFolder" class="bi bi-folder"></i><i
+          *ngIf="!thingFromHomeComponent.isFolder" class="bi bi-file-earmark"></i> {{thingFromHomeComponent.name}}</div>
         <div class="d-flex justify-content-between">
-          <button *ngIf="thingFromHomeComponent.isFolder == true " (click)="addFolder()" class="btn btn-primary options me-3">Add Folder</button>
-          <button *ngIf="thingFromHomeComponent.isFolder == true " (click)="addFile()" class="btn btn-primary options me-3">Add File</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" class="btn btn-primary options me-3"
-                  (click)="edit()">Edit
+          <button (click)="addFolder()" *ngIf="thingFromHomeComponent.isFolder == true "
+                  class="btn btn-primary options me-3">Add Folder
+          </button>
+          <button (click)="addFile()" *ngIf="thingFromHomeComponent.isFolder == true "
+                  class="btn btn-primary options me-3">Add File
+          </button>
+          <button (click)="edit()" *ngIf="thingFromHomeComponent.name != 'root'"
+                  class="btn btn-primary options me-3">Edit
           </button>
           <button *ngIf="thingFromHomeComponent.isFolder == true " class="btn btn-primary options me-3">Sort</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" class="btn btn-primary options me-3"
-                  (click)="move()">Move
+          <button (click)="move()" *ngIf="thingFromHomeComponent.name != 'root'"
+                  class="btn btn-primary options me-3">Move
           </button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" class="btn btn-danger options me-3" (click)="delete()">
+          <button (click)="delete()" *ngIf="thingFromHomeComponent.name != 'root'" class="btn btn-danger options me-3">
             Delete
           </button>
         </div>
@@ -23,25 +28,37 @@
   <button *ngIf="isInput" class="btn btn-secondary btn-lg btn-block" type="button">
     <div class="row">
       <div class="d-flex justify-content-between">
-        <div>{{thingFromHomeComponent.name}}</div>
+        <div><i *ngIf="thingFromHomeComponent.isFolder" class="bi bi-folder"></i><i
+          *ngIf="!thingFromHomeComponent.isFolder" class="bi bi-file-earmark"></i> {{thingFromHomeComponent.name}}</div>
         <div class="d-flex justify-content-between">
-          <button [disabled]="true" class="btn btn-primary options me-3">Add Folder</button>
-          <button [disabled]="true" class="btn btn-primary options me-3">Add File</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">Edit</button>
-          <button [disabled]="true" class="btn btn-primary options me-3">Sort</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">Move</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-danger options me-3" (click)="delete()">Delete</button>
+          <button *ngIf="thingFromHomeComponent.isFolder" [disabled]="true" class="btn btn-primary options me-3">Add
+            Folder
+          </button>
+          <button *ngIf="thingFromHomeComponent.isFolder" [disabled]="true" class="btn btn-primary options me-3">Add
+            File
+          </button>
+          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">
+            Edit
+          </button>
+          <button *ngIf="thingFromHomeComponent.isFolder" [disabled]="true" class="btn btn-primary options me-3">Sort
+          </button>
+          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">
+            Move
+          </button>
+          <button (click)="delete()" *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true"
+                  class="btn btn-danger options me-3">Delete
+          </button>
         </div>
       </div>
     </div>
     <div class="row mt-3">
       <div class="d-flex justify-content-between">
         <div>{{message}}</div>
-        <form #registerForm="ngForm" (ngSubmit)="input()" autocomplete="off">
-          <div class="form-group d-flex justify-content-between"><input type="text" class="form-control" name="name"
-                                                                        [(ngModel)]="inputString">
+        <form (ngSubmit)="input()" autocomplete="off">
+          <div class="form-group d-flex justify-content-between"><input [(ngModel)]="inputString" class="form-control" name="name"
+                                                                        type="text">
             <button class="btn btn-success options ms-3" type="submit">Submit</button>
-            <button class="btn btn-danger options ms-3 me-3" type="button" (click)="cancel()">Cancel</button>
+            <button (click)="cancel()" class="btn btn-danger options ms-3 me-3" type="button">Cancel</button>
           </div>
         </form>
       </div>
@@ -50,25 +67,32 @@
   <button *ngIf="isAddFolder" class="btn btn-secondary btn-lg btn-block" type="button">
     <div class="row">
       <div class="d-flex justify-content-between">
-        <div>{{thingFromHomeComponent.name}}</div>
+        <div><i *ngIf="thingFromHomeComponent.isFolder" class="bi bi-folder"></i><i
+          *ngIf="!thingFromHomeComponent.isFolder" class="bi bi-file-earmark"></i> {{thingFromHomeComponent.name}}</div>
         <div class="d-flex justify-content-between">
           <button [disabled]="true" class="btn btn-primary options me-3">Add Folder</button>
           <button [disabled]="true" class="btn btn-primary options me-3">Add File</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">Edit</button>
+          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">
+            Edit
+          </button>
           <button [disabled]="true" class="btn btn-primary options me-3">Sort</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">Move</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-danger options me-3" (click)="delete()">Delete</button>
+          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">
+            Move
+          </button>
+          <button (click)="delete()" *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true"
+                  class="btn btn-danger options me-3">Delete
+          </button>
         </div>
       </div>
     </div>
     <div class="row mt-3">
       <div class="d-flex justify-content-between">
         <div>{{message}}</div>
-        <form #registerForm="ngForm" (ngSubmit)="input()" autocomplete="off">
-          <div class="form-group d-flex justify-content-between"><input type="text" class="form-control" name="name"
-                                                                        [(ngModel)]="inputString">
+        <form (ngSubmit)="input()" autocomplete="off">
+          <div class="form-group d-flex justify-content-between"><input [(ngModel)]="inputString" class="form-control" name="name"
+                                                                        type="text">
             <button class="btn btn-success options ms-3" type="submit">Create</button>
-            <button class="btn btn-danger options ms-3 me-3" type="button" (click)="cancel()">Cancel</button>
+            <button (click)="cancel()" class="btn btn-danger options ms-3 me-3" type="button">Cancel</button>
           </div>
         </form>
       </div>
@@ -77,25 +101,32 @@
   <button *ngIf="isAddFile" class="btn btn-secondary btn-lg btn-block" type="button">
     <div class="row">
       <div class="d-flex justify-content-between">
-        <div>{{thingFromHomeComponent.name}}</div>
+        <div><i *ngIf="thingFromHomeComponent.isFolder" class="bi bi-folder"></i><i
+          *ngIf="!thingFromHomeComponent.isFolder" class="bi bi-file-earmark"></i> {{thingFromHomeComponent.name}}</div>
         <div class="d-flex justify-content-between">
           <button [disabled]="true" class="btn btn-primary options me-3">Add Folder</button>
           <button [disabled]="true" class="btn btn-primary options me-3">Add File</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">Edit</button>
+          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">
+            Edit
+          </button>
           <button [disabled]="true" class="btn btn-primary options me-3">Sort</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">Move</button>
-          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-danger options me-3" (click)="delete()">Delete</button>
+          <button *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true" class="btn btn-primary options me-3">
+            Move
+          </button>
+          <button (click)="delete()" *ngIf="thingFromHomeComponent.name != 'root'" [disabled]="true"
+                  class="btn btn-danger options me-3">Delete
+          </button>
         </div>
       </div>
     </div>
     <div class="row mt-3">
       <div class="d-flex justify-content-between">
         <div>{{message}}</div>
-        <form #registerForm="ngForm" (ngSubmit)="input()" autocomplete="off">
-          <div class="form-group d-flex justify-content-between"><input type="text" class="form-control" name="name"
-                                                                        [(ngModel)]="inputString">
+        <form (ngSubmit)="input()" autocomplete="off">
+          <div class="form-group d-flex justify-content-between"><input [(ngModel)]="inputString" class="form-control" name="name"
+                                                                        type="text">
             <button class="btn btn-success options ms-3" type="submit">Create</button>
-            <button class="btn btn-danger options ms-3 me-3" type="button" (click)="cancel()">Cancel</button>
+            <button (click)="cancel()" class="btn btn-danger options ms-3 me-3" type="button">Cancel</button>
           </div>
         </form>
       </div>
