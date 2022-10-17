@@ -11,6 +11,7 @@ export class FieldComponent implements OnInit {
   @Input() thingFromHomeComponent: any;
   @Output() openClose = new EventEmitter();
   @Output() add = new EventEmitter();
+  @Output() refresh = new EventEmitter();
   isInput: boolean = false;
   message: string = "";
   inputString: string = "";
@@ -42,7 +43,7 @@ export class FieldComponent implements OnInit {
 
   sort() {
     this.http.get(`https://localhost:7089/api/things/sort/${this.thingFromHomeComponent.id}`).subscribe(response => {
-      window.location.reload()
+      this.refreshThings();
     }, error => {
       console.log(error)
     })
@@ -55,7 +56,7 @@ export class FieldComponent implements OnInit {
 
   delete() {
     this.http.get(`https://localhost:7089/api/things/delete/${this.thingFromHomeComponent.id}`).subscribe(response => {
-      window.location.reload()
+      this.refreshThings();
     }, error => {
       console.log(error)
     })
@@ -77,8 +78,7 @@ export class FieldComponent implements OnInit {
         }
       }
       this.http.get(`https://localhost:7089/api/things/add-folder?name=${this.inputString}&parentName=${this.thingFromHomeComponent.name}`).subscribe(response => {
-
-        window.location.reload()
+        this.refreshThings();
       }, error => {
         console.log(error)
       })
@@ -89,7 +89,7 @@ export class FieldComponent implements OnInit {
         }
       }
       this.http.get(`https://localhost:7089/api/things/add-file?name=${this.inputString}&parentName=${this.thingFromHomeComponent.name}`).subscribe(response => {
-        window.location.reload()
+        this.refreshThings();
       }, error => {
         console.log(error)
       })
@@ -110,7 +110,7 @@ export class FieldComponent implements OnInit {
           return window.alert('folder with this name does not exist')
         }
         this.http.get(`https://localhost:7089/api/things/move/${this.thingFromHomeComponent.id}?name=${this.inputString}`).subscribe(response => {
-          window.location.reload()
+          this.refreshThings();
         }, error => {
           console.log(error)
         })
@@ -121,7 +121,7 @@ export class FieldComponent implements OnInit {
           }
         }
         this.http.get(`https://localhost:7089/api/things/rename/${this.thingFromHomeComponent.id}?name=${this.inputString}`).subscribe(response => {
-          window.location.reload()
+          this.refreshThings();
         }, error => {
           console.log(error)
         })
@@ -136,10 +136,13 @@ export class FieldComponent implements OnInit {
     this.isAddFolder = false;
   }
 
-  openClose2(){
-    if(this.thingFromHomeComponent.isFolder == true){
+  openClose2() {
+    if (this.thingFromHomeComponent.isFolder == true) {
       this.openClose.emit(this.thingFromHomeComponent.name);
     }
   }
 
+  refreshThings() {
+    this.refresh.emit();
+  }
 }

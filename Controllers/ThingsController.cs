@@ -58,7 +58,7 @@ public class ThingsController : ControllerBase
 
         parent.Childrens.Add(name);
 
-        int k = 1;
+        var k = 1;
 
         string newPosition;
 
@@ -98,7 +98,7 @@ public class ThingsController : ControllerBase
 
         parent.Childrens.Add(name);
 
-        int k = 1;
+        var k = 1;
 
         string newPosition;
 
@@ -228,7 +228,7 @@ public class ThingsController : ControllerBase
         {
             thing.Level = level + 1;
 
-            int k = 1;
+            var k = 1;
 
             string newPosition;
 
@@ -249,8 +249,8 @@ public class ThingsController : ControllerBase
         else
         {
             thing.Level = level + 1;
-            
-            int k = 1;
+
+            var k = 1;
 
             string newPosition;
 
@@ -268,9 +268,7 @@ public class ThingsController : ControllerBase
             thing.Position = newPosition;
             _context.SaveChanges();
             foreach (var child in thing.Childrens)
-            {
                 ChangeLevel(_context.Things.FirstOrDefault(b => b.Name == child), level + 1, thing.Position);
-            }
         }
     }
 
@@ -292,32 +290,27 @@ public class ThingsController : ControllerBase
 
         return isSubfolder;
     }
-    
+
     [HttpGet("sort/{id}")]
     public async Task<ActionResult<Thing>> sort(int id)
     {
-        List<string> things = new List<string>();
+        var things = new List<string>();
 
         var thing = _context.Things.FirstOrDefault(b => b.Id == id);
 
-        foreach (var child in thing.Childrens)
-        {
-            things.Add(child);
-        }
-        
+        foreach (var child in thing.Childrens) things.Add(child);
+
         things.Sort();
 
         foreach (var child in things)
         {
             _context.Things.FirstOrDefault(b => b.Name == child).Position = "";
-            
+
             _context.SaveChanges();
         }
-        
+
         foreach (var child in things)
-        {
-            ChangePosition(_context.Things.FirstOrDefault(b => b.Name == child),thing.Position);
-        }
+            ChangePosition(_context.Things.FirstOrDefault(b => b.Name == child), thing.Position);
 
         await _context.SaveChangesAsync();
         return thing;
@@ -327,8 +320,7 @@ public class ThingsController : ControllerBase
     {
         if (thing.IsFolder == false || thing.Childrens.Count == 0)
         {
-
-            int k = 1;
+            var k = 1;
 
             string newPosition;
 
@@ -348,8 +340,7 @@ public class ThingsController : ControllerBase
         }
         else
         {
-
-            int k = 1;
+            var k = 1;
 
             string newPosition;
 
@@ -367,9 +358,7 @@ public class ThingsController : ControllerBase
             thing.Position = newPosition;
             _context.SaveChanges();
             foreach (var child in thing.Childrens)
-            {
                 ChangePosition(_context.Things.FirstOrDefault(b => b.Name == child), thing.Position);
-            }
         }
     }
 }

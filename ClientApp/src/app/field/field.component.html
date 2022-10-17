@@ -1,6 +1,6 @@
 <div class="mt-3">
-  <button *ngIf="!isInput && !isAddFolder && !isAddFile" class="btn btn-secondary btn-lg btn-block" type="button"
-          (click)="openClose2()">
+  <button (click)="openClose2()" *ngIf="!isInput && !isAddFolder && !isAddFile" class="btn btn-secondary btn-lg btn-block"
+          type="button">
     <div class="row">
       <div class="d-flex justify-content-between">
         <div><i *ngIf="thingFromHomeComponent.isFolder && thingFromHomeComponent.childrens.length == 0"
@@ -18,7 +18,10 @@
           <button (click)="edit()" *ngIf="thingFromHomeComponent.name != 'root'"
                   class="btn btn-primary options me-3">Edit
           </button>
-          <button *ngIf="thingFromHomeComponent.isFolder == true " [disabled]="thingFromHomeComponent.childrens.length == 0"  (click)="sort()" class="btn btn-primary options me-3">Sort</button>
+          <button (click)="sort()"
+                  *ngIf="thingFromHomeComponent.isFolder == true " [disabled]="thingFromHomeComponent.childrens.length == 0"
+                  class="btn btn-primary options me-3">Sort
+          </button>
           <button (click)="move()" *ngIf="thingFromHomeComponent.name != 'root'"
                   class="btn btn-primary options me-3">Move
           </button>

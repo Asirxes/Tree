@@ -14,9 +14,9 @@
       <change beforePath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/7.pack" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/7.pack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/index.pack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/index.pack.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientApp/src/app/field/field.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/src/app/field/field.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClientApp/src/app/field/field.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/src/app/field/field.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/ThingsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/ThingsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClientApp/src/app/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/src/app/home/home.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClientApp/src/app/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/src/app/home/home.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,6 +116,7 @@
       <workItem from="1665848153077" duration="7636000" />
       <workItem from="1665908077839" duration="5884000" />
       <workItem from="1665917669135" duration="21629000" />
+      <workItem from="1665996685655" duration="2724000" />
     </task>
     <task id="LOCAL-00001" summary="Created Tree Project">
       <created>1665511661032</created>
