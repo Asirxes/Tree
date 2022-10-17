@@ -32,8 +32,12 @@ public class ThingsController : ControllerBase
     }
 
     [HttpGet("add-root-folder")]
-    public async Task<ActionResult<Thing>> AddRootFolder()
+    public async Task<ActionResult<bool>> AddRootFolder()
     {
+        if (_context.Things.FirstOrDefault(b => b.Name == "root") != null)
+        {
+            return false;
+        }
         var thing = new Thing
         {
             IsFolder = true,
@@ -46,7 +50,7 @@ public class ThingsController : ControllerBase
         };
         _context.Things.Add(thing);
         await _context.SaveChangesAsync();
-        return thing;
+        return true;
     }
 
     [HttpGet("add-folder")]
