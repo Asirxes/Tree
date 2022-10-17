@@ -110,6 +110,9 @@ export class FieldComponent implements OnInit {
           return window.alert('folder with this name does not exist')
         }
         this.http.get(`https://localhost:7089/api/things/move/${this.thingFromHomeComponent.id}?name=${this.inputString}`).subscribe(response => {
+          if (response == false) {
+            return window.alert("Can't move into subfolder");
+          }
           this.refreshThings();
         }, error => {
           console.log(error)

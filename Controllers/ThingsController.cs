@@ -194,7 +194,7 @@ public class ThingsController : ControllerBase
     }
 
     [HttpGet("move/{id}")]
-    public async Task<ActionResult<Thing>> Move(int id, string name)
+    public async Task<ActionResult<bool>> Move(int id, string name)
     {
         if (_context.Things.FirstOrDefault(b => b.Name == name) == null ||
             _context.Things.FirstOrDefault(b => b.Name == name).IsFolder == false)
@@ -206,7 +206,7 @@ public class ThingsController : ControllerBase
 
         if (thing.IsFolder)
             if (CheckSubfolder(thing, name))
-                return BadRequest("Can't move into subfolder");
+                return false;
 
         var parent = _context.Things.FirstOrDefault(b => b.Name == thing.ParentName);
 
@@ -219,7 +219,7 @@ public class ThingsController : ControllerBase
         ChangeLevel(thing, destiny.Level, destiny.Position);
 
         await _context.SaveChangesAsync();
-        return thing;
+        return true;
     }
 
     public void ChangeLevel(Thing thing, int level, string position)
@@ -276,7 +276,7 @@ public class ThingsController : ControllerBase
     {
         var isSubfolder = false;
 
-        if (thing.Childrens.Count != 0)
+        if (thing.IsFolder && thing.Childrens.Count != 0)
             foreach (var child in thing.Childrens)
                 if (child == name)
                 {
