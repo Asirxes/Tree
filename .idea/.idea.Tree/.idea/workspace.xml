@@ -9,12 +9,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="921399b8-bdee-40f4-91a3-e7e5d9d858f5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tree/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tree/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/1.pack" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/1.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/14.pack" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/14.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/9.pack" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/9.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/index.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/.angular/cache/14.0.3/angular-webpack/6e438f775462d5f862617260cd4bc3aae556c68e/index.pack.old" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClientApp/src/app/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ClientApp/src/app/home/home.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/ThingsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/ThingsController.cs" afterDir="false" />
     </list>
@@ -117,7 +111,7 @@
       <workItem from="1665908077839" duration="5884000" />
       <workItem from="1665917669135" duration="21629000" />
       <workItem from="1665996685655" duration="4949000" />
-      <workItem from="1666018331678" duration="663000" />
+      <workItem from="1666018331678" duration="758000" />
     </task>
     <task id="LOCAL-00001" summary="Created Tree Project">
       <created>1665511661032</created>

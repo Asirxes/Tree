@@ -16,8 +16,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get('https://localhost:7089/api/things/add-root-folder').subscribe(()=>{
-    },error =>{
+    this.http.get('https://localhost:7089/api/things/add-root-folder').subscribe(() => {
+    }, error => {
     })
     if (localStorage.getItem('Data') != null) {
       this.getStatus()
