@@ -2,6 +2,10 @@
 
 A simple web application that imitates a file explorer using a tree structure. .Net and Angular play the main role. The database is supported by Entity Framework.
 
-Thanks to the azure service, the application is available at https://asirxestree.azurewebsites.net/
+To run the application you have to install docker and run
 
-To use the project, just go to the website and freely add, remove, change elements.
+docker run --name tree -e POSTGRES_USER=appuser -e POSTGRES_PASSWORD=Pa$$w0rd -p 5432:5432 -d postgres:latest
+
+make sure that docker container is running
+
+run project in rider and freely add folders, fake files, delete move etc.
